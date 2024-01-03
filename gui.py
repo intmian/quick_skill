@@ -1,5 +1,6 @@
 import os
 import random
+import sys
 import time
 import tkinter as tk
 from tkinter import ttk,simpledialog,messagebox
@@ -362,7 +363,10 @@ def main():
     # os.chdir(os.path.dirname(os.path.realpath(__file__)))
     # 如果没有管理员权限就报错
     if ctypes.windll.shell32.IsUserAnAdmin() == 0:
-        messagebox.showwarning("警告", "未以管理员身份运行，可能无法正常工作")
+        messagebox.showwarning("警告", "未以管理员身份运行，将以管理员权限重新启动")
+        # ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1 | 0x40)
+        return
     random.seed()
     m = mgr(ui(),QuickCastManager())
     m.start()
