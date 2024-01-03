@@ -1,0 +1,6 @@
+*.spec
+__pycache__
+/setting.json
+/quick.json
+/pack/gui.exe
+pack.rar
