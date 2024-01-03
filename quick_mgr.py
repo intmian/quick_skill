@@ -295,16 +295,16 @@ class QuickCastManager:
         timeline_now = 0
         keys = []
         for key in combo['sequence']:
-            if key[0] == "`" and len(key) == 2:
+            if key[0] == "`":
                 delay = float(0)
-                for i in range(int(key[1])):
-                    delay += random.uniform(0.91, 1.09) * self.settings["key_up_interval"]
+                # 为了提高准确度并且操作更加自然，随机延迟设定如下
+                delay += random.uniform(0.95, 1.051) * 0.001 * int(key[1:])
                 timeline_now += delay
                 continue
             keys.append((key,True,timeline_now))
-            delay = self.settings["key_up_interval"] * random.uniform(0.77, 1.23)
+            delay = self.settings["key_up_interval"] * random.uniform(0.952, 1.05)
             keys.append((key,False,timeline_now+delay))
-            timeline_now += self.settings["key_interval"] * random.uniform(0.66, 1.34)
+            timeline_now += self.settings["key_interval"] * random.uniform(0.82, 1.19)
         keys.sort(key=lambda x: x[2])
         for i,key in enumerate(keys):
             if i != 0:

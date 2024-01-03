@@ -149,10 +149,10 @@ class ui:
             sequence = ""
             for key in combo["sequence"]:
                 if key[0] == '`':
-                    for i in range(int(key[1:])):
-                        sequence += "空"
+                    sequence += f"空{key[1:]}ms"
                 else:
                     sequence += key
+                sequence += " "
             str_list.append(f"{trigger_key}: {sequence}")
         str_list.append("<双击新增|双击已有项删除>")
         self.combobox.set(cast_name)
@@ -322,7 +322,11 @@ class mgr:
         root.withdraw()
         root.update_idletasks()
         trigger_key = simpledialog.askstring("新增快捷键", "请输入触发键,额外支持鼠标侧键后x1,前x2",parent=root)
-        if trigger_key == None:
+        if trigger_key == None or trigger_key == "":
+            return
+        # 检测是否包含空格
+        if " " in trigger_key:
+            simpledialog.messagebox.showerror("新增方案", "触发键不能包含空格")
             return
         # 检测是否已经存在
         for combo in self.quick_mgr.quick_casts[self.now_choose_cast]:
@@ -330,18 +334,21 @@ class mgr:
                 simpledialog.messagebox.showerror("新增方案", "已经存在该快捷键，请先删除旧的")
                 return
         root.update_idletasks()
-        sequence = simpledialog.askstring("新增快捷键", "请输入按键序列,额外支持`n表示空n次,以空格分隔",parent=root)
-        if sequence == None:
+        sequence = simpledialog.askstring("新增快捷键", "请输入按键序列,额外支持`n表示空n ms,对应技能后摇等,以空格分隔",parent=root)
+        if sequence == None or sequence == "":
             return
         
+        sequence = sequence.split()
         # 检查是否存在是否存在大于一个键的
         for key in sequence:
-            if key[0] == "`" and len(key) == 2:
-                pass
+            if key[0] == "`":
+                # 遍历下是否都为数字，且小于10000
+                if not key[1:].isdigit() or int(key[1:]) > 10000:
+                    simpledialog.messagebox.showerror("新增方案", "无效的按键序列")
+                    return
             elif len(key) > 1:
                 simpledialog.messagebox.showerror("新增方案", "无效的按键序列")
                 return
-        sequence = sequence.split()
         self.quick_mgr.add_combo_to_cast(self.now_choose_cast,trigger_key,sequence,self.is_start)
         self.ui_mgr.on_add_combo({"trigger_key":trigger_key,"sequence":sequence})
 
@@ -372,7 +379,7 @@ class mgr:
 def main():
     # 打包的程序的实际路径是一个临时目录，所以注释
     # os.chdir(os.path.dirname(os.path.realpath(__file__)))
-    # 如果没有管理员权限就报错
+    # 如果没有管理员权限就以管理员权限重新启动
     if ctypes.windll.shell32.IsUserAnAdmin() == 0:
         messagebox.showwarning("警告", "未以管理员身份运行，将以管理员权限重新启动")
         # ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
