@@ -292,8 +292,19 @@ class mgr:
             else:
                 yes = simpledialog.messagebox.askyesno("删除快捷键", "是否删除该快捷键")
                 if yes:
-                    self.quick_mgr.delete_combo_from_cast(self.now_choose_cast,selected_item)
-                    self.ui_mgr.on_delete_combo(selected_item)
+                    # 提取出触发键
+                    trigger_key = selected_item.split(":")[0]
+                    if trigger_key == "鼠标侧后键":
+                        trigger_key = "x1"
+                    elif trigger_key == "鼠标侧前键":
+                        trigger_key = "x2"
+                    self.del_comb(trigger_key,selected_item)
+
+    def del_comb(self, trigger_key,selected_item):
+        self.quick_mgr.delete_combo_from_cast(self.now_choose_cast,trigger_key)
+        self.ui_mgr.on_delete_combo(selected_item)
+        self.quick_mgr.stop_listener()
+        self.quick_mgr.run_listener(self.now_choose_cast)
 
     def on_del_casts(self):
         yes = simpledialog.messagebox.askyesno("删除方案", "是否删除该方案")
