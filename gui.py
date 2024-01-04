@@ -12,15 +12,31 @@ class ui:
     def __init__(self):
         self.window = tk.Tk()
         self.window.title("快速施法")
-        self.window.geometry("300x300")
-        # 移动到屏幕中央
-        screen_width = self.window.winfo_screenwidth()
-        screen_height = self.window.winfo_screenheight()
-        self.window.geometry("%dx%d+%d+%d" % (300, 300, (screen_width - 300) / 2, (screen_height - 300) / 2))
-        self.window.focus_force()
+
+        # 窗口大小
+        window_x = 300
+        window_y = 300
+        # 基础控件大小，为了避免官方的gird布局的问题，这里自己实现一份
         weight_base = 30
         height_base = 30
+        # 禁止调整大小
+        self.window.resizable(False, False)
 
+        # DPI
+        ctypes.windll.shcore.SetProcessDpiAwareness(1)
+        scale = ctypes.windll.shcore.GetScaleFactorForDevice(0) / 100
+        window_x = int(window_x * scale)
+        window_y = int(window_y * scale)
+        weight_base = int(weight_base * scale)
+        height_base = int(height_base * scale)
+
+        # 移动到屏幕中央
+        self.window.geometry(f"{window_x}x{window_y}")
+        screen_width = self.window.winfo_screenwidth()
+        screen_height = self.window.winfo_screenheight()
+        self.window.geometry("%dx%d+%d+%d" % (window_x, window_y, (screen_width - window_x) / 2, (screen_height - window_y) / 2))
+        self.window.focus_force()
+        
         left_space = weight_base * 0.5
         top_space = height_base * 0.5
 
