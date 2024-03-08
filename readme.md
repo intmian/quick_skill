@@ -22,6 +22,19 @@
 
 ![image](https://github.com/intmian/quick_skill/assets/38103855/51709ee0-d170-417a-8d17-5ca861895ce6)
 
+## 使用方法
+从[正式版本](https://github.com/intmian/quick_skill/releases/)中下载最新版本。
+
+新建自己的方案和连招。
+
+### 例子
+地狱潜兵2，一键搓招与磁轨炮不安全模式定时最大威力释放
+
+![image](https://github.com/intmian/quick_skill/assets/38103855/7966ce17-2887-4ebd-aaf9-a2946efdc135)
+
+某些游戏一键破红甲接羊刀
+
+![image](https://github.com/intmian/quick_skill/assets/38103855/d0e9b57c-5ead-4b56-843b-43639871d05e)
 
 ## 注意事项
 
