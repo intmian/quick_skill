@@ -5,7 +5,7 @@ import time
 import os
 from pynput import mouse
 from ctypes import windll
-
+mouseController = mouse.Controller()
 user32 = windll.user32
 kernel32 = windll.kernel32
 psapi = windll.psapi
@@ -327,18 +327,21 @@ class QuickCastManager:
             timeline_now += self.settings["key_interval"] * random.uniform(0.82, 1.19)
         keys.sort(key=lambda x: x[2])
         for i,key in enumerate(keys):
+            print(key)
             if i != 0:
                 time.sleep(key[2]-keys[i-1][2])
             if key[0] == "MLeft":
                 if key[1]:
-                    user32.mouse_event(2, 0, 0, 0, 0)
+                    mouseController.press(mouse.Button.left)
                 else:
-                    user32.mouse_event(4, 0, 0, 0, 0)
+                    mouseController.release(mouse.Button.left)
+                continue
             elif key[0] == "MRight":
                 if key[1]:
-                    user32.mouse_event(8, 0, 0, 0, 0)
+                    mouseController.press(mouse.Button.right)
                 else:
-                    user32.mouse_event(16, 0, 0, 0, 0)
+                    mouseController.release(mouse.Button.right)
+                continue
             if key[1]:
                 keyboard.press(key[0])
             else:
