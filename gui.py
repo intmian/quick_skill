@@ -184,8 +184,7 @@ class ui:
         sequence = ""
         for key in combo["sequence"]:
             if key[0] == '`':
-                for i in range(int(key[1:])):
-                    sequence += "空"
+                    sequence += f"空{key[1:]}ms"
             else:
                 sequence += key
         self.listbox.insert(tk.END, f"{trigger_key}: {sequence}")
