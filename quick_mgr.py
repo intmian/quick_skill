@@ -301,14 +301,44 @@ class QuickCastManager:
                 delay += random.uniform(0.95, 1.051) * 0.001 * int(key[1:])
                 timeline_now += delay
                 continue
-            keys.append((key,True,timeline_now))
+            if len(key) > 1 and (key[0] == "l" or key[0] == "r"):
+                delay = float(0)
+                delay += random.uniform(0.99, 1.01) * 0.001 * int(key[1:])
+                if key[0] == "l":
+                    keys.append(("MLeft",True,timeline_now))
+                    keys.append(("MLeft",False,timeline_now+delay))
+                if key[0] == "r":
+                    keys.append(("MRight",True,timeline_now))
+                    keys.append(("MRight",False,timeline_now+delay))
+                timeline_now += delay
+                continue
+            real_key = key
+            if key == "上":
+                real_key = "up"
+            elif key == "下":
+                real_key = "down"
+            elif key == "左":
+                real_key = "left"
+            elif key == "右":
+                real_key = "right"
+            keys.append((real_key,True,timeline_now))
             delay = self.settings["key_up_interval"] * random.uniform(0.952, 1.05)
-            keys.append((key,False,timeline_now+delay))
+            keys.append((real_key,False,timeline_now+delay))
             timeline_now += self.settings["key_interval"] * random.uniform(0.82, 1.19)
         keys.sort(key=lambda x: x[2])
         for i,key in enumerate(keys):
             if i != 0:
                 time.sleep(key[2]-keys[i-1][2])
+            if key[0] == "MLeft":
+                if key[1]:
+                    user32.mouse_event(2, 0, 0, 0, 0)
+                else:
+                    user32.mouse_event(4, 0, 0, 0, 0)
+            elif key[0] == "MRight":
+                if key[1]:
+                    user32.mouse_event(8, 0, 0, 0, 0)
+                else:
+                    user32.mouse_event(16, 0, 0, 0, 0)
             if key[1]:
                 keyboard.press(key[0])
             else:

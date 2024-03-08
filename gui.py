@@ -350,7 +350,7 @@ class mgr:
                 simpledialog.messagebox.showerror("新增方案", "已经存在该快捷键，请先删除旧的")
                 return
         root.update_idletasks()
-        sequence = simpledialog.askstring("新增快捷键", "请输入按键序列,额外支持`n表示空n ms,对应技能后摇等,以空格分隔",parent=root)
+        sequence = simpledialog.askstring("新增快捷键", "请输入按键序列,支持方向键（上下左右）,按住左键（ln 按住xx毫秒），按住右键（rn 按住xx毫秒）,额外支持`n表示空n ms,对应技能后摇等,以空格分隔",parent=root)
         if sequence == None or sequence == "":
             return
         
@@ -361,6 +361,13 @@ class mgr:
                 # 遍历下是否都为数字，且小于10000
                 if not key[1:].isdigit() or int(key[1:]) > 10000:
                     simpledialog.messagebox.showerror("新增方案", "无效的按键序列")
+                    return
+            elif key[0] == "l" or key[0] == "r":
+                if len(key) == 1:
+                    simpledialog.messagebox.showerror("新增方案", "无效的按键序列"+key)
+                    return
+                if not key[1:].isdigit() or int(key[1:]) > 10000:
+                    simpledialog.messagebox.showerror("新增方案", "无效的按键序列"+key)
                     return
             elif len(key) > 1:
                 simpledialog.messagebox.showerror("新增方案", "无效的按键序列")
