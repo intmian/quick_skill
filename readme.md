@@ -30,7 +30,8 @@
 ### 例子
 地狱潜兵2，一键搓招与磁轨炮不安全模式定时最大威力释放
 
-![image](https://github.com/intmian/quick_skill/assets/38103855/7966ce17-2887-4ebd-aaf9-a2946efdc135)
+![image](https://github.com/user-attachments/assets/4d968bbd-84d8-4e9a-8504-e67685043530)
+
 
 某些游戏一键破红甲接羊刀
 
