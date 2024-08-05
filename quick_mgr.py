@@ -301,9 +301,9 @@ class QuickCastManager:
                 delay += random.uniform(0.95, 1.051) * 0.001 * int(key[1:])
                 timeline_now += delay
                 continue
-            if len(key) > 1 and (key[0] == "l" or key[0] == "r"):
+            if len(key) >= 3 and (key[:2] == "lp" or key[:2] == "rp"):
                 delay = float(0)
-                delay += random.uniform(0.99, 1.01) * 0.001 * int(key[1:])
+                delay += random.uniform(0.99, 1.01) * 0.001 * int(key[2:])
                 if key[0] == "l":
                     keys.append(("MLeft",True,timeline_now))
                     keys.append(("MLeft",False,timeline_now+delay))

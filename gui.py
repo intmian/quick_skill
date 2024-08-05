@@ -7,6 +7,20 @@ from tkinter import ttk,simpledialog,messagebox
 from quick_mgr import QuickCastManager
 from sys import exit
 import ctypes
+
+def InputToShow(key):
+    if key[0] == '`':
+        return f"空{key[1:]}ms"
+    elif len(key) >= 3 and (key[:2] == "lp" or key[:2] == "rp"):
+        s = ""
+        if key[:2] == "lp":
+            s = "按住左键"
+        else:
+            s = "按住右键"
+        return f"{s}({key[2:]}ms)"
+    else:
+        return key
+
 # 界面管理
 class ui:
     def __init__(self):
@@ -164,10 +178,7 @@ class ui:
                 trigger_key = "鼠标侧前键"
             sequence = ""
             for key in combo["sequence"]:
-                if key[0] == '`':
-                    sequence += f"空{key[1:]}ms"
-                else:
-                    sequence += key
+                sequence += InputToShow(key)
                 sequence += " "
             str_list.append(f"{trigger_key}: {sequence}")
         str_list.append("<双击新增|双击已有项删除>")
@@ -183,10 +194,7 @@ class ui:
             trigger_key = "鼠标侧前键"
         sequence = ""
         for key in combo["sequence"]:
-            if key[0] == '`':
-                    sequence += f"空{key[1:]}ms"
-            else:
-                sequence += key
+            sequence += InputToShow(key)
         self.listbox.insert(tk.END, f"{trigger_key}: {sequence}")
         # 将<双击新增|双击已有项删除>移到最后
         for i in range(len(self.listbox.get(0, tk.END)) - 1):
@@ -349,7 +357,7 @@ class mgr:
                 simpledialog.messagebox.showerror("新增方案", "已经存在该快捷键，请先删除旧的")
                 return
         root.update_idletasks()
-        sequence = simpledialog.askstring("新增快捷键", "请输入按键序列,支持方向键（上下左右）,按住左键（ln 按住xx毫秒），按住右键（rn 按住xx毫秒）,额外支持`n表示空n ms,对应技能后摇等,以空格分隔",parent=root)
+        sequence = simpledialog.askstring("新增快捷键", "请输入按键序列,支持方向键（上下左右）,按住左键（lpxx 按住xx毫秒），按住右键（rptxx 按住xx毫秒）,额外支持`n表示空n ms,对应技能后摇等,以空格分隔",parent=root)
         if sequence == None or sequence == "":
             return
         
@@ -361,12 +369,9 @@ class mgr:
                 if not key[1:].isdigit() or int(key[1:]) > 10000:
                     simpledialog.messagebox.showerror("新增方案", "无效的按键序列")
                     return
-            elif key[0] == "l" or key[0] == "r":
-                if len(key) == 1:
-                    simpledialog.messagebox.showerror("新增方案", "无效的按键序列"+key)
-                    return
-                if not key[1:].isdigit() or int(key[1:]) > 10000:
-                    simpledialog.messagebox.showerror("新增方案", "无效的按键序列"+key)
+            elif len(key) >= 3 and (key[:2] == "lp" or key[:2] == "rp"):
+                if not key[2:].isdigit() or int(key[2:]) > 10000:
+                    simpledialog.messagebox.showerror("新增方案", "无效的按键序列")
                     return
             elif len(key) > 1:
                 simpledialog.messagebox.showerror("新增方案", "无效的按键序列")
