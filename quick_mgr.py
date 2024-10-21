@@ -18,8 +18,7 @@ class QuickCastManager:
         self.save_settings()
         self.save_quick_casts()
         self.select_cast = None
-        self.x1 = None
-        self.x2 = None
+        self.mouse_combo = {}
         self.lock = False
         mouse_listener = mouse.Listener(on_click=self.on_click)
         # 启动监听器
@@ -27,16 +26,29 @@ class QuickCastManager:
 
     # 鼠标按键监听
     def on_click(self, x,y, button, pressed):
+        """
+        程序启动时就会启动鼠标监听，开始流程后，遍历所有方案，将鼠标相关注册到此处。
+        请注意除了输入处都是以汉字存储对应功能的。
+        """
         if not pressed:
             return
+        print(self.mouse_combo)
         if button == mouse.Button.x1:
-            if self.x1 is None:
+            if 'x1' not in self.mouse_combo:
                 return
-            self.run_combo(self.x1)
+            self.run_combo(self.mouse_combo['x1'])
         elif button == mouse.Button.x2:
-            if self.x2 is None:
+            if 'x2' not in self.mouse_combo:
                 return
-            self.run_combo(self.x2)
+            self.run_combo(self.mouse_combo['x2'])
+        elif button == mouse.Button.left:
+            if 'MLeft' not  in self.mouse_combo:
+                return
+            self.run_combo(self.mouse_combo['MLeft'])
+        elif button == mouse.Button.right:
+            if 'MRight' not in self.mouse_combo:
+                return
+            self.run_combo(self.mouse_combo['MRight'])
 
     def load_settings(self):
         try:
@@ -102,11 +114,8 @@ class QuickCastManager:
         else:
             return
         if hotkey:
-            if trigger_key in ["x1","x2"]:
-                if trigger_key == "x1":
-                    self.x1 = {"trigger_key": "x1", "sequence": sequence}
-                if trigger_key == "x2":
-                    self.x2 = {"trigger_key": "x2", "sequence": sequence}
+            if trigger_key in ["x1","x2","MLeft","MRight"]:
+                self.mouse_combo[trigger_key] = {"trigger_key": trigger_key, "sequence": sequence}
             else:
                 keyboard.add_hotkey("alt+" + trigger_key, self.run_combo, args=({"trigger_key": trigger_key, "sequence": sequence},))
         self.save_quick_casts()
@@ -117,25 +126,21 @@ class QuickCastManager:
             return False
         self.select_cast = cast_name
         for combo in self.quick_casts[cast_name]:
-            if combo["trigger_key"] in ["x1","x2"]:
-                if combo["trigger_key"] == "x1":
-                    self.x1 = combo
-                if combo["trigger_key"] == "x2":
-                    self.x2 = combo
+            if combo["trigger_key"] in ["x1","x2","MLeft","MRight"]:
+                self.mouse_combo[combo["trigger_key"]] = combo
             else:
                 keyboard.add_hotkey(combo["trigger_key"], self.run_combo, args=(combo,))
         self.cast_name = cast_name
         return True
 
     def stop_listener(self):
-        self.x1 = None
-        self.x2 = None
+        self.mouse_combo = {}
         try:
             keyboard.unhook_all_hotkeys()
         except Exception as e:
             find = False
             for combo in self.quick_casts[self.cast_name]:
-                if combo["trigger_key"] not in ["x1","x2"]:
+                if combo["trigger_key"] not in ["x1","x2","MLeft","MRight"]:
                     find = True
                     break
             if find:
