@@ -344,7 +344,7 @@ class mgr:
         root = tk.Tk()
         root.withdraw()
         root.update_idletasks()
-        trigger_key = simpledialog.askstring("新增快捷键", "请输入触发键,额外支持鼠标侧键后x1,前x2",parent=root)
+        trigger_key = simpledialog.askstring("新增快捷键", "请输入触发键(快捷键使用+连接，鼠标后侧键x1前侧键x2)",parent=root)
         if trigger_key == None or trigger_key == "":
             return
         # 检测是否包含空格
