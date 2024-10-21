@@ -212,32 +212,3 @@ class QuickCastManager:
             else:
                 keyboard.release(key[0])
         self.lock = False
-
-def main():
-    os.chdir(os.path.dirname(os.path.realpath(__file__)))
-    manager = QuickCastManager()
-    random.seed()
-    while True:
-        print("1. 新建快捷施法方案")
-        print("2. 选择已有方案")
-        print("3. 删除已有方案")
-        print("4. 设置")
-        print("5. 退出程序")
-
-        choice = input("请输入选项 (1-3): ")
-
-        if choice == "1":
-            manager.create_new_cast()
-        elif choice == "2":
-            manager.run_listener()
-        elif choice == "3":
-            manager.delete_cast()
-        elif choice == "4":
-            manager.change_settings()
-        elif choice == "5":
-            exit()
-        else:
-            print("无效的选项，请重新输入。")
-
-if __name__ == "__main__":
-    main()
