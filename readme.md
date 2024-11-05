@@ -37,6 +37,11 @@
 
 ![image](https://github.com/intmian/quick_skill/assets/38103855/d0e9b57c-5ead-4b56-843b-43639871d05e)
 
+### 反馈
+如果您在使用中发现了一些问题或有什么改进的电子，请通过issue进行反馈。您的反馈，就是对本项目的最大的支持。
+
+常见问题可以参考下[issue置顶](https://github.com/intmian/quick_skill/issues/11)。
+
 ## 注意事项
 
 - 请注意，`quick_skill` 仅推荐在自动化办公操作或在征得开发者同意的前提下，在游戏内进行自动化操作。如行为违规，后果自负。
