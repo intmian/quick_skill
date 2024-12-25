@@ -38,7 +38,7 @@
 ![image](https://github.com/intmian/quick_skill/assets/38103855/d0e9b57c-5ead-4b56-843b-43639871d05e)
 
 ### 反馈
-如果您在使用中发现了一些问题或有什么改进的电子，请通过issue进行反馈。您的反馈，就是对本项目的最大的支持。
+如果您在使用中发现了一些问题或有什么改进的点，请通过issue进行反馈。您的反馈，就是对本项目的最大的支持。
 
 常见问题可以参考下[issue置顶](https://github.com/intmian/quick_skill/issues/11)。
 
