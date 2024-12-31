@@ -11,12 +11,16 @@ import ctypes
 def InputToShow(key):
     if key[0] == '`':
         return f"空{key[1:]}ms"
-    elif len(key) >= 3 and (key[:2] == "lp" or key[:2] == "rp"):
+    elif len(key) >= 3 and (key[:2] == "lp" or key[:2] == "rp" or key[:2] == "x1" or key[:2] == "x2"):
         s = ""
         if key[:2] == "lp":
             s = "按住左键"
-        else:
+        elif key[:2] == "rp":
             s = "按住右键"
+        elif key[:2] == "x1":
+            s = "按住侧后键"
+        elif key[:2] == "x2":
+            s = "按住侧前键"
         return f"{s}({key[2:]}ms)"
     else:
         return key
@@ -360,7 +364,7 @@ class mgr:
         root = tk.Tk()
         root.withdraw()
         root.update_idletasks()
-        trigger_key = simpledialog.askstring("新增快捷键", "请输入触发键(快捷键使用+连接，鼠标后侧键x1前侧键x2，鼠标左键MLeft，鼠标右键MRight)",parent=root)
+        trigger_key = simpledialog.askstring("新增快捷键", "请输入触发键(快捷键使用+连接，鼠标后侧键x1前侧键x2，鼠标左键MLeft、右键MRight)",parent=root)
         if trigger_key == None or trigger_key == "":
             return
         # 检测是否包含空格
@@ -373,7 +377,7 @@ class mgr:
                 simpledialog.messagebox.showerror("新增方案", "已经存在该快捷键，请先删除旧的")
                 return
         root.update_idletasks()
-        sequence = simpledialog.askstring("新增快捷键", "请输入按键序列,支持方向键（上下左右）,按住左键（lpxx 按住xx毫秒），按住右键（rptxx 按住xx毫秒）,额外支持`n表示空n ms,对应技能后摇等,以空格分隔",parent=root)
+        sequence = simpledialog.askstring("新增快捷键", "请输入按键序列,支持方向键（上下左右）,按住左右侧前侧后键键（lp|rp|x1|x2xx 按住xx毫秒）,额外支持`n表示空n ms,对应技能后摇等,以空格分隔",parent=root)
         if sequence == None or sequence == "":
             return
         
@@ -385,7 +389,7 @@ class mgr:
                 if not key[1:].isdigit() or int(key[1:]) > 10000:
                     simpledialog.messagebox.showerror("新增方案", "无效的按键序列")
                     return
-            elif len(key) >= 3 and (key[:2] == "lp" or key[:2] == "rp"):
+            elif len(key) >= 3 and (key[:2] == "lp" or key[:2] == "rp" or key[:2] == "x1" or key[:2] == "x2"):
                 if not key[2:].isdigit() or int(key[2:]) > 10000:
                     simpledialog.messagebox.showerror("新增方案", "无效的按键序列")
                     return

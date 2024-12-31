@@ -171,7 +171,7 @@ class QuickCastManager:
                 delay += random.uniform(0.95, 1.051) * 0.001 * int(key[1:])
                 timeline_now += delay
                 continue
-            if len(key) >= 3 and (key[:2] == "lp" or key[:2] == "rp"):
+            if len(key) >= 3 and (key[:2] == "lp" or key[:2] == "rp" or key[:2] == "x1"  or key[:2] == "x2"):
                 delay = float(0)
                 delay += random.uniform(0.99, 1.01) * 0.001 * int(key[2:])
                 if key[0] == "l":
@@ -180,6 +180,12 @@ class QuickCastManager:
                 if key[0] == "r":
                     keys.append(("MRight",True,timeline_now))
                     keys.append(("MRight",False,timeline_now+delay))
+                if key[:2] == "x1":
+                    keys.append(("x1",True,timeline_now))
+                    keys.append(("x1",False,timeline_now+delay))
+                if key[:2] == "x2":
+                    keys.append(("x2",True,timeline_now))
+                    keys.append(("x2",False,timeline_now+delay))
                 timeline_now += delay
                 continue
             real_key = key
@@ -211,6 +217,18 @@ class QuickCastManager:
                     mouseController.press(mouse.Button.right)
                 else:
                     mouseController.release(mouse.Button.right)
+                continue
+            elif key[0] == "x1":
+                if key[1]:
+                    mouseController.press(mouse.Button.x1)
+                else:
+                    mouseController.release(mouse.Button.x1)
+                continue
+            elif key[0] == "x2":
+                if key[1]:
+                    mouseController.press(mouse.Button.x2)
+                else:
+                    mouseController.release(mouse.Button.x2)
                 continue
             if key[1]:
                 keyboard.press(key[0])
